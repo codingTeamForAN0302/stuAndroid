@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn"
+            android:onClick="toggleMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="切换菜单"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="吴明亚"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+</LinearLayout>
