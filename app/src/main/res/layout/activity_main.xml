@@ -12,8 +12,6 @@
         android:layout_height="match_parent"
         hyman:rightPadding="100dp">
 
-
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -24,18 +22,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/img9"
                 android:orientation="vertical">
 
                 <include layout="@layout/top"/>
 
-                <wumingya.com.studentsystem.ReFlashListView
-                    android:id="@+id/listview"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffffff"
-                    android:cacheColorHint="#00000000"
-                    android:dividerHeight="5dip" />
+
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager"
@@ -43,11 +34,12 @@
                     android:layout_weight="1"
                     android:layout_height="0dp" />
 
-                <include layout="@layout/bottom"/>
+                <include layout="@layout/bottom" />
             </LinearLayout>
 
 
         </LinearLayout>
+
     </menuview.slidingmenu>
 
 

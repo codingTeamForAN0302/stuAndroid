@@ -52,8 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initView();//初始化控件
         initData();//初始化数据
         initEvent();//初始化事件
-        setData();
-        showList(apk_list);
+
 
         mLeftMenu = (slidingmenu) findViewById(R.id.id_menu);
 
@@ -137,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+
     public void toggleMenu(View view)
     {
         mLeftMenu.toggle();
@@ -146,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 设置事件
         mTabAddress.setOnClickListener(this);
         mTabFriends.setOnClickListener(this);
-
         mTabSettings.setOnClickListener(this);
         mTabWeixin.setOnClickListener(this);
 
@@ -163,19 +162,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //将当前Tab对应的ImageButton设置成绿色
                 switch (currentItem) {
                     case 0:
-                        mWeixinImg.setImageResource(R.drawable.img_1);
+                        mWeixinImg.setImageResource(R.mipmap.icon_blue_1);
                         break;
                     case 1:
-                        mFriendsImg.setImageResource(R.drawable.img_2);
+                        mFriendsImg.setImageResource(R.mipmap.icon_blue_2);
                         break;
                     case 2:
-                        mAddressImg.setImageResource(R.drawable.img_3);
+                        mAddressImg.setImageResource(R.mipmap.icon_blue_3);
                         break;
                     case 3:
-                        mSettingsImg.setImageResource(R.drawable.img_4);
+                        mSettingsImg.setImageResource(R.mipmap.icon_blue_4);
                         break;
 
                     default:
+                        mWeixinImg.setImageResource(R.mipmap.icon_blue_1);
                         break;
                 }
             }
@@ -230,19 +230,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.id_tab_chat:
                 //设置viewPager的当前Tab
                 viewPager.setCurrentItem(0);
-                mWeixinImg.setImageResource(R.drawable.img_1);
+                mWeixinImg.setImageResource(R.mipmap.icon_blue_1);
+                setData();
+                showList(apk_list);
                 break;
             case R.id.id_tab_friend:
                 viewPager.setCurrentItem(1);
-                mFriendsImg.setImageResource(R.drawable.img_2);
+                mFriendsImg.setImageResource(R.mipmap.icon_blue_2);
                 break;
             case R.id.id_tab_address:
                 viewPager.setCurrentItem(2);
-                mAddressImg.setImageResource(R.drawable.img_3);
+                mAddressImg.setImageResource(R.mipmap.icon_blue_3);
                 break;
             case R.id.id_tab_settings:
                 viewPager.setCurrentItem(3);
-                mSettingsImg.setImageResource(R.drawable.img_4);
+                mSettingsImg.setImageResource(R.mipmap.icon_blue_4);
                 break;
             default:
                 break;
@@ -251,9 +253,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //将所有的图片都变暗
     private void resetImg(){
-        mWeixinImg.setImageResource(R.drawable.img_1);
-        mAddressImg.setImageResource(R.drawable.img_2);
-        mFriendsImg.setImageResource(R.drawable.img_3);
-        mSettingsImg.setImageResource(R.drawable.img_4);
+        mWeixinImg.setImageResource(R.mipmap.icon_1);
+        mFriendsImg.setImageResource(R.mipmap.icon_2);
+        mAddressImg.setImageResource(R.mipmap.icon_3);
+        mSettingsImg.setImageResource(R.mipmap.icon_4);
     }
 }
