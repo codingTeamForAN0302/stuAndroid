@@ -1,6 +1,5 @@
 package wumingya.com.studentsystem;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,8 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
-import wumingya.com.studentsystem.ReFlashListView.IReflashListener;
+import reflash.ApkEntity;
+import reflash.MyAdapter;
+import reflash.ReFlashListView;
+import reflash.ReFlashListView.IReflashListener;
 
 import menuview.slidingmenu;
 

@@ -1,4 +1,4 @@
-package wumingya.com.studentsystem;
+package reflash;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import wumingya.com.studentsystem.R;
 
 public class ReFlashListView extends ListView implements OnScrollListener {
 	View header;// 顶部布局文件

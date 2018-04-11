@@ -14,9 +14,9 @@
             android:text="切换菜单"/>
 
         <TextView
+            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="吴明亚"
             android:textColor="#000000"
             android:gravity="center"
             android:textSize="20sp"/>

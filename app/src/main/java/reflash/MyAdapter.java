@@ -1,4 +1,4 @@
-package wumingya.com.studentsystem;
+package reflash;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import wumingya.com.studentsystem.R;
 
 public class MyAdapter extends BaseAdapter {
 	ArrayList<ApkEntity> apk_list;

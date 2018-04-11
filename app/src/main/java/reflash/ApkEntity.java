@@ -1,4 +1,4 @@
-package wumingya.com.studentsystem;
+package reflash;
 
 public class ApkEntity {
 	private String name;
