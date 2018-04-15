@@ -200,6 +200,7 @@ public class FoldingLayout extends BaseFoldingLayout {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent me) {
+
 		return mScrollGestureDetector.onTouchEvent(me);
 	}
 

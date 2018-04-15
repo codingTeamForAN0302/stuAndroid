@@ -1,5 +1,9 @@
 package wumingya.com.studentsystem;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -10,12 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
+import foldingmenu.FoldingLayout;
+import foldingmenu.OnFoldListener;
 import reflash.ApkEntity;
 import reflash.MyAdapter;
 import reflash.ReFlashListView;
@@ -43,23 +52,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mAddressImg;
     private ImageButton mSettingsImg;
 
+    private View mBottomView;
+    private LinearLayout mTrafficLayout;
+    private RelativeLayout mTrafficBarLayout;
+    private FoldingLayout mTrafficFoldingLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        //去掉TitleBar
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
+
+        mBottomView = findViewById(R.id.bottom_view);
+
 
         initView();//初始化控件
         initData();//初始化数据
         initEvent();//初始化事件
-
-
         mLeftMenu = (slidingmenu) findViewById(R.id.id_menu);
 
     }
+
     MyAdapter adapter;
     ReFlashListView listview;
+
+    private void initView() {
+        viewPager = (ViewPager)findViewById(R.id.viewpager);
+
+        mTabWeixin = (LinearLayout)findViewById(R.id.id_tab_chat);
+        mTabAddress = (LinearLayout)findViewById(R.id.id_tab_address);
+        mTabFriends = (LinearLayout)findViewById(R.id.id_tab_friend);
+        mTabSettings = (LinearLayout)findViewById(R.id.id_tab_settings);
+
+        mWeixinImg = (ImageButton)findViewById(R.id.id_tab_chat_btn);
+        mFriendsImg = (ImageButton)findViewById(R.id.id_tab_friend_btn);
+        mAddressImg = (ImageButton)findViewById(R.id.id_tab_address_btn);
+        mSettingsImg = (ImageButton)findViewById(R.id.id_tab_settings_btn);
+
+        mTrafficLayout = (LinearLayout) findViewById(R.id.traffic_layout);
+        mTrafficBarLayout = (RelativeLayout) findViewById(R.id.traffic_bar_layout);
+        mTrafficFoldingLayout = ((FoldingLayout) findViewById(R.id.traffic_item));
+
+
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View tab01 = inflater.inflate(R.layout.tab01, null);
+        View tab02 = inflater.inflate(R.layout.tab02, null);
+        View tab03 = inflater.inflate(R.layout.tab03, null);
+        View tab04 = inflater.inflate(R.layout.tab04, null);
+
+        mViews.add(tab01);
+        mViews.add(tab02);
+        mViews.add(tab03);
+        mViews.add(tab04);
+    }
     private void showList(ArrayList<ApkEntity> apk_list) {
         if (adapter == null) {
             listview = (ReFlashListView) findViewById(R.id.listview);
@@ -109,31 +156,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }, 2000);
 
-    }
-
-    private void initView() {
-        viewPager = (ViewPager)findViewById(R.id.viewpager);
-
-        mTabWeixin = (LinearLayout)findViewById(R.id.id_tab_chat);
-        mTabAddress = (LinearLayout)findViewById(R.id.id_tab_address);
-        mTabFriends = (LinearLayout)findViewById(R.id.id_tab_friend);
-        mTabSettings = (LinearLayout)findViewById(R.id.id_tab_settings);
-
-        mWeixinImg = (ImageButton)findViewById(R.id.id_tab_chat_btn);
-        mFriendsImg = (ImageButton)findViewById(R.id.id_tab_friend_btn);
-        mAddressImg = (ImageButton)findViewById(R.id.id_tab_address_btn);
-        mSettingsImg = (ImageButton)findViewById(R.id.id_tab_settings_btn);
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View tab01 = inflater.inflate(R.layout.tab01, null);
-        View tab02 = inflater.inflate(R.layout.tab02, null);
-        View tab03 = inflater.inflate(R.layout.tab03, null);
-        View tab04 = inflater.inflate(R.layout.tab04, null);
-
-        mViews.add(tab01);
-        mViews.add(tab02);
-        mViews.add(tab03);
-        mViews.add(tab04);
     }
 
 
@@ -238,6 +260,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.id_tab_friend:
                 viewPager.setCurrentItem(1);
                 mFriendsImg.setImageResource(R.mipmap.icon_blue_2);
+
+
                 break;
             case R.id.id_tab_address:
                 viewPager.setCurrentItem(2);
@@ -247,10 +271,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 viewPager.setCurrentItem(3);
                 mSettingsImg.setImageResource(R.mipmap.icon_blue_4);
                 break;
+            case R.id.traffic_bar_layout:
+                handleAnimation(v, mTrafficFoldingLayout, mTrafficLayout, mBottomView);
+                break;
             default:
                 break;
         }
     }
+
+
 
     //将所有的图片都变暗
     private void resetImg(){
@@ -259,4 +288,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAddressImg.setImageResource(R.mipmap.icon_3);
         mSettingsImg.setImageResource(R.mipmap.icon_4);
     }
+
+    public void traffic_bar(View view){
+
+        handleAnimation(view, mTrafficFoldingLayout, mTrafficLayout, mBottomView);
+    }
+
+    private void handleAnimation( View bar,  FoldingLayout foldinglayout, View parent,  View nextParent) {
+
+        final ImageView arrow = (ImageView) parent.findViewById(R.id.traffic_arrow);
+
+        foldinglayout.setFoldListener(new OnFoldListener() {
+
+            @Override
+            public void onStartFold(float foldFactor) {
+
+//                bar.setClickable(true);
+//                arrow.setBackgroundResource(R.drawable.service_arrow_up);
+//                resetMarginToTop(foldingLayout, foldFactor, nextParent);
+            }
+
+            @Override
+            public void onFoldingState(float foldFactor, float foldDrawHeight) {
+//                bar.setClickable(false);
+//                resetMarginToTop(foldingLayout, foldFactor, nextParent);
+            }
+
+            @Override
+            public void onEndFold(float foldFactor) {
+
+//                bar.setClickable(true);
+//                arrow.setBackgroundResource(R.drawable.service_arrow_down);
+//                resetMarginToTop(foldingLayout, foldFactor, nextParent);
+            }
+        });
+
+        animateFold(foldinglayout, 1000);
+
+    }
+    @SuppressLint("NewApi")
+    public void animateFold(FoldingLayout foldLayout, int duration) {
+        float foldFactor = foldLayout.getFoldFactor();
+
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(foldLayout, "foldFactor", foldFactor, foldFactor > 0 ? 0 : 1);
+//        animator.setRepeatMode(ValueAnimator.REVERSE);
+//        animator.setRepeatCount(0);
+//        animator.setDuration(duration);
+//        animator.setInterpolator(new AccelerateInterpolator());
+//        animator.start();
+    }
+//    private void resetMarginToTop(View view, float foldFactor, View nextParent) {
+//
+//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) nextParent.getLayoutParams();
+//        lp.topMargin =(int)( - view.getMeasuredHeight() * foldFactor) + dp2px(MainActivity.this, 10);
+//        nextParent.setLayoutParams(lp);
+//    }
+//    public final static int dp2px(Context context, float dpValue) {
+//        float density = context.getResources().getDisplayMetrics().density;
+//        return (int) (dpValue * density + 0.5f);
+//    }
 }
+
+
+
