@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="45dp"
-                android:text="交通"
+                android:text="信息技术学院"
                 android:textColor="#4b4b47"
                 android:textSize="15dp" />
 
@@ -73,7 +73,7 @@
                         android:layout_marginLeft="3dp"
                         android:layout_weight="1"
                         android:background="@drawable/service_btn_bg"
-                        android:text="停车场查询"
+                        android:text="软件工程"
                         android:textColor="#d55a34"
                         android:textSize="13dp" />
 
@@ -83,7 +83,7 @@
                         android:layout_marginLeft="3dp"
                         android:layout_weight="1"
                         android:background="@drawable/service_btn_bg"
-                        android:text="公交实时查询"
+                        android:text="数字媒体"
                         android:textColor="#d55a34"
                         android:textSize="13dp" />
 
@@ -94,7 +94,7 @@
                         android:layout_marginRight="3dp"
                         android:layout_weight="1"
                         android:background="@drawable/service_btn_bg"
-                        android:text="公共自行车查询"
+                        android:text="网络工程"
                         android:textColor="#d55a34"
                         android:textSize="13dp" />
                 </LinearLayout>
@@ -111,7 +111,7 @@
                         android:layout_marginLeft="3dp"
                         android:layout_weight="1"
                         android:background="@drawable/service_btn_bg"
-                        android:text="路况查询"
+                        android:text="计算机科学与技术"
                         android:textColor="#d55a34"
                         android:textSize="13dp" />
 
@@ -121,58 +121,9 @@
                         android:layout_marginLeft="3dp"
                         android:layout_weight="1"
                         android:background="@drawable/service_btn_bg"
-                        android:text="水上巴士查询"
+                        android:text="智能化"
                         android:textColor="#d55a34"
                         android:textSize="13dp" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="29dp"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/service_btn_bg"
-                        android:text="地铁查询"
-                        android:textColor="#d55a34"
-                        android:textSize="13dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal" >
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="29dp"
-                        android:layout_marginLeft="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/service_btn_bg"
-                        android:text="高速路况查询"
-                        android:textColor="#d55a34"
-                        android:textSize="13dp" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="29dp"
-                        android:layout_marginLeft="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/service_btn_bg"
-                        android:textColor="#d55a34"
-                        android:textSize="13dp"
-                        android:visibility="invisible" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="29dp"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/service_btn_bg"
-                        android:textColor="#d55a34"
-                        android:textSize="13dp"
-                        android:visibility="invisible" />
                 </LinearLayout>
             </LinearLayout>
         </foldingmenu.BaseFoldingLayout>

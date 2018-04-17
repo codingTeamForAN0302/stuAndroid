@@ -1,30 +1,18 @@
 package wumingya.com.studentsystem;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
-import android.content.Context;
+
 import android.os.Handler;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import foldingmenu.FoldingLayout;
-import foldingmenu.OnFoldListener;
 import reflash.ApkEntity;
 import reflash.MyAdapter;
 import reflash.ReFlashListView;
@@ -32,30 +20,26 @@ import reflash.ReFlashListView.IReflashListener;
 
 import menuview.slidingmenu;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,IReflashListener {
+public class MainActivity extends FragmentActivity implements View.OnClickListener,IReflashListener{
     ArrayList<ApkEntity> apk_list;
     private slidingmenu mLeftMenu ;
+
     //声明ViewPager
     private ViewPager viewPager;
     //声明ViewPager的适配器
-    private PagerAdapter Madapter;
-    //用于装载四个Tab的List
-    private List<View> mViews = new ArrayList<View>();
+    private FragmentPagerAdapter mAdapter;
 
-    private LinearLayout mTabWeixin;
-    private LinearLayout mTabFriends;
-    private LinearLayout mTabAddress;
-    private LinearLayout mTabSettings;
+    private List<Fragment> mFragments;
 
-    private ImageButton mWeixinImg;
-    private ImageButton mFriendsImg;
-    private ImageButton mAddressImg;
-    private ImageButton mSettingsImg;
+    private LinearLayout mTabHome;
+    private LinearLayout mTabMajor;
+    private LinearLayout mTabStudent;
+    private LinearLayout mTabCollage;
 
-    private View mBottomView;
-    private LinearLayout mTrafficLayout;
-    private RelativeLayout mTrafficBarLayout;
-    private FoldingLayout mTrafficFoldingLayout;
+    private ImageButton mHomeImg;
+    private ImageButton mMajorImg;
+    private ImageButton mStudentImg;
+    private ImageButton mCollageImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,50 +47,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        mBottomView = findViewById(R.id.bottom_view);
-
-
         initView();//初始化控件
-        initData();//初始化数据
         initEvent();//初始化事件
-        mLeftMenu = (slidingmenu) findViewById(R.id.id_menu);
-
+        initData();//初始化数据
+        setTab(0);
     }
-
+    //侧滑菜单功能
+    public void toggleMenu(View view)
+    {
+        mLeftMenu.toggle();
+    }
+    /*
+    * 下拉刷新功能
+    * */
     MyAdapter adapter;
     ReFlashListView listview;
-
-    private void initView() {
-        viewPager = (ViewPager)findViewById(R.id.viewpager);
-
-        mTabWeixin = (LinearLayout)findViewById(R.id.id_tab_chat);
-        mTabAddress = (LinearLayout)findViewById(R.id.id_tab_address);
-        mTabFriends = (LinearLayout)findViewById(R.id.id_tab_friend);
-        mTabSettings = (LinearLayout)findViewById(R.id.id_tab_settings);
-
-        mWeixinImg = (ImageButton)findViewById(R.id.id_tab_chat_btn);
-        mFriendsImg = (ImageButton)findViewById(R.id.id_tab_friend_btn);
-        mAddressImg = (ImageButton)findViewById(R.id.id_tab_address_btn);
-        mSettingsImg = (ImageButton)findViewById(R.id.id_tab_settings_btn);
-
-        mTrafficLayout = (LinearLayout) findViewById(R.id.traffic_layout);
-        mTrafficBarLayout = (RelativeLayout) findViewById(R.id.traffic_bar_layout);
-        mTrafficFoldingLayout = ((FoldingLayout) findViewById(R.id.traffic_item));
-
-
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View tab01 = inflater.inflate(R.layout.tab01, null);
-        View tab02 = inflater.inflate(R.layout.tab02, null);
-        View tab03 = inflater.inflate(R.layout.tab03, null);
-        View tab04 = inflater.inflate(R.layout.tab04, null);
-
-        mViews.add(tab01);
-        mViews.add(tab02);
-        mViews.add(tab03);
-        mViews.add(tab04);
-    }
     private void showList(ArrayList<ApkEntity> apk_list) {
         if (adapter == null) {
             listview = (ReFlashListView) findViewById(R.id.listview);
@@ -117,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             adapter.onDateChange(apk_list);
         }
     }
-
     private void setData() {
         apk_list = new ArrayList<ApkEntity>();
         for (int i = 0; i < 5; i++) {
@@ -128,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             apk_list.add(entity);
         }
     }
-
     private void setReflashData() {
         for (int i = 0; i < 2; i++) {
             ApkEntity entity = new ApkEntity();
@@ -143,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // TODO Auto-generated method stub\
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 // TODO Auto-generated method stub
@@ -155,23 +107,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 listview.reflashComplete();
             }
         }, 2000);
-
     }
 
 
+    /*
+    * 初始化控件
+    * */
+    private void initView() {
+        viewPager = (ViewPager)findViewById(R.id.viewpager);
 
-    public void toggleMenu(View view)
-    {
-        mLeftMenu.toggle();
+        mTabHome = (LinearLayout)findViewById(R.id.id_tab_home);
+        mTabMajor = (LinearLayout)findViewById(R.id.id_tab_student);
+        mTabStudent = (LinearLayout)findViewById(R.id.id_tab_major);
+        mTabCollage = (LinearLayout)findViewById(R.id.id_tab_collage);
+
+        mHomeImg = (ImageButton)findViewById(R.id.id_tab_home_btn);
+        mMajorImg = (ImageButton)findViewById(R.id.id_tab_major_btn);
+        mStudentImg = (ImageButton)findViewById(R.id.id_tab_student_btn);
+        mCollageImg = (ImageButton)findViewById(R.id.id_tab_collage_btn);
+
+
+        mLeftMenu = (slidingmenu) findViewById(R.id.id_menu);
+
     }
 
     private void initEvent() {
         // 设置事件
-        mTabAddress.setOnClickListener(this);
-        mTabFriends.setOnClickListener(this);
-        mTabSettings.setOnClickListener(this);
-        mTabWeixin.setOnClickListener(this);
+        mTabStudent.setOnClickListener(this);
+        mTabMajor.setOnClickListener(this);
+        mTabCollage.setOnClickListener(this);
+        mTabHome.setOnClickListener(this);
 
+    }
+
+    private void initData() {
+
+        mFragments = new ArrayList<Fragment>();
+        Fragment mTab01 = new HomeFragment();
+        Fragment mTab02 = new MajorFragment();
+        Fragment mTab03 = new StudentFragment();
+        Fragment mTab04 = new CollageFragment();
+        mFragments.add(mTab01);
+        mFragments.add(mTab02);
+        mFragments.add(mTab03);
+        mFragments.add(mTab04);
+
+        mAdapter = new FragmentPagerAdapter(getSupportFragmentManager())
+        {
+            @Override
+            public int getCount()
+            {
+                return mFragments.size();
+            }
+            @Override
+            public Fragment getItem(int arg0)
+            {
+                return mFragments.get(arg0);
+            }
+        };
+        viewPager.setAdapter(mAdapter);
         //添加ViewPager的切换Tab的监听事件
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -180,173 +174,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onPageSelected(int arg0) {
                 //获取ViewPager的当前Tab
                 int currentItem = viewPager.getCurrentItem();
-                //将所以的ImageButton设置成灰色
                 resetImg();
-                //将当前Tab对应的ImageButton设置成绿色
-                switch (currentItem) {
-                    case 0:
-                        mWeixinImg.setImageResource(R.mipmap.icon_blue_1);
-                        break;
-                    case 1:
-                        mFriendsImg.setImageResource(R.mipmap.icon_blue_2);
-                        break;
-                    case 2:
-                        mAddressImg.setImageResource(R.mipmap.icon_blue_3);
-                        break;
-                    case 3:
-                        mSettingsImg.setImageResource(R.mipmap.icon_blue_4);
-                        break;
-
-                    default:
-                        mWeixinImg.setImageResource(R.mipmap.icon_blue_1);
-                        break;
-                }
+                setTab(currentItem);
             }
-
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
-
             }
-
             @Override
             public void onPageScrollStateChanged(int arg0) {
 
             }
         });
     }
-
-    private void initData() {
-        //初始化ViewPager的适配器
-        Madapter = new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return mViews.size();
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return view == object;
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-                View view = mViews.get(position);
-                container.addView(view);
-                return view;
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-                container.removeView(mViews.get(position));
-            }
-        };
-        //设置ViewPager的适配器
-        viewPager.setAdapter(Madapter);
-    }
-
-
     @Override
     public void onClick(View v) {
-        //先将四个ImageButton都设置成灰色
+        //先将四个ImageButton置为灰色
         resetImg();
         switch (v.getId()) {
-            case R.id.id_tab_chat:
-                //设置viewPager的当前Tab
-                viewPager.setCurrentItem(0);
-                mWeixinImg.setImageResource(R.mipmap.icon_blue_1);
+            case R.id.id_tab_home:
+                setTab(0);
                 setData();
                 showList(apk_list);
                 break;
-            case R.id.id_tab_friend:
-                viewPager.setCurrentItem(1);
-                mFriendsImg.setImageResource(R.mipmap.icon_blue_2);
-
-
+            case R.id.id_tab_major:
+                setTab(1);
                 break;
-            case R.id.id_tab_address:
-                viewPager.setCurrentItem(2);
-                mAddressImg.setImageResource(R.mipmap.icon_blue_3);
+            case R.id.id_tab_student:
+                setTab(2);
                 break;
-            case R.id.id_tab_settings:
-                viewPager.setCurrentItem(3);
-                mSettingsImg.setImageResource(R.mipmap.icon_blue_4);
-                break;
-            case R.id.traffic_bar_layout:
-                handleAnimation(v, mTrafficFoldingLayout, mTrafficLayout, mBottomView);
+            case R.id.id_tab_collage:
+                setTab(3);
                 break;
             default:
                 break;
         }
     }
 
-
-
+    private void setTab(int i)
+    {
+        //将当前Tab对应的ImageButton设置成绿色
+        switch (i) {
+            case 0:
+                mHomeImg.setImageResource(R.mipmap.icon_blue_1);
+                break;
+            case 1:
+                mMajorImg.setImageResource(R.mipmap.icon_blue_2);
+                break;
+            case 2:
+                mStudentImg.setImageResource(R.mipmap.icon_blue_3);
+                break;
+            case 3:
+                mCollageImg.setImageResource(R.mipmap.icon_blue_4);
+                break;
+        }
+        viewPager.setCurrentItem(i);
+    }
     //将所有的图片都变暗
     private void resetImg(){
-        mWeixinImg.setImageResource(R.mipmap.icon_1);
-        mFriendsImg.setImageResource(R.mipmap.icon_2);
-        mAddressImg.setImageResource(R.mipmap.icon_3);
-        mSettingsImg.setImageResource(R.mipmap.icon_4);
+        mHomeImg.setImageResource(R.mipmap.icon_1);
+        mMajorImg.setImageResource(R.mipmap.icon_2);
+        mStudentImg.setImageResource(R.mipmap.icon_3);
+        mCollageImg.setImageResource(R.mipmap.icon_4);
     }
 
-    public void traffic_bar(View view){
-
-        handleAnimation(view, mTrafficFoldingLayout, mTrafficLayout, mBottomView);
-    }
-
-    private void handleAnimation( View bar,  FoldingLayout foldinglayout, View parent,  View nextParent) {
-
-        final ImageView arrow = (ImageView) parent.findViewById(R.id.traffic_arrow);
-
-        foldinglayout.setFoldListener(new OnFoldListener() {
-
-            @Override
-            public void onStartFold(float foldFactor) {
-
-//                bar.setClickable(true);
-//                arrow.setBackgroundResource(R.drawable.service_arrow_up);
-//                resetMarginToTop(foldingLayout, foldFactor, nextParent);
-            }
-
-            @Override
-            public void onFoldingState(float foldFactor, float foldDrawHeight) {
-//                bar.setClickable(false);
-//                resetMarginToTop(foldingLayout, foldFactor, nextParent);
-            }
-
-            @Override
-            public void onEndFold(float foldFactor) {
-
-//                bar.setClickable(true);
-//                arrow.setBackgroundResource(R.drawable.service_arrow_down);
-//                resetMarginToTop(foldingLayout, foldFactor, nextParent);
-            }
-        });
-
-        animateFold(foldinglayout, 1000);
-
-    }
-    @SuppressLint("NewApi")
-    public void animateFold(FoldingLayout foldLayout, int duration) {
-        float foldFactor = foldLayout.getFoldFactor();
-
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(foldLayout, "foldFactor", foldFactor, foldFactor > 0 ? 0 : 1);
-//        animator.setRepeatMode(ValueAnimator.REVERSE);
-//        animator.setRepeatCount(0);
-//        animator.setDuration(duration);
-//        animator.setInterpolator(new AccelerateInterpolator());
-//        animator.start();
-    }
-//    private void resetMarginToTop(View view, float foldFactor, View nextParent) {
-//
-//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) nextParent.getLayoutParams();
-//        lp.topMargin =(int)( - view.getMeasuredHeight() * foldFactor) + dp2px(MainActivity.this, 10);
-//        nextParent.setLayoutParams(lp);
-//    }
-//    public final static int dp2px(Context context, float dpValue) {
-//        float density = context.getResources().getDisplayMetrics().density;
-//        return (int) (dpValue * density + 0.5f);
-//    }
 }
 
 

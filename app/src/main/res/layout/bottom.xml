@@ -5,14 +5,14 @@
     android:orientation="horizontal"
     android:background="#fff">
     <LinearLayout
-        android:id="@+id/id_tab_chat"
+        android:id="@+id/id_tab_home"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center" >
         <ImageButton
-            android:id="@+id/id_tab_chat_btn"
+            android:id="@+id/id_tab_home_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"
@@ -25,14 +25,14 @@
             android:textColor="#000"/>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/id_tab_friend"
+        android:id="@+id/id_tab_major"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center">
         <ImageButton
-            android:id="@+id/id_tab_friend_btn"
+            android:id="@+id/id_tab_major_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"
@@ -46,7 +46,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/id_tab_address"
+        android:id="@+id/id_tab_student"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -54,7 +54,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/id_tab_address_btn"
+            android:id="@+id/id_tab_student_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
@@ -68,14 +68,14 @@
             android:textColor="#000" />
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/id_tab_settings"
+        android:id="@+id/id_tab_collage"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center">
         <ImageButton
-            android:id="@+id/id_tab_settings_btn"
+            android:id="@+id/id_tab_collage_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"
