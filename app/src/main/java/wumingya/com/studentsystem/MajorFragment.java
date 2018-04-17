@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,16 +35,35 @@ public class MajorFragment extends Fragment
 		mTrafficFoldingLayout = (FoldingLayout)  myView.findViewById(R.id.traffic_item);
 
 		final View mBottomView =  myView.findViewById(R.id.bottom_view);
-
 		mTrafficBarLayout.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+//				Log.i("Tag","触发点击事件");
 				handleAnimation(v, mTrafficFoldingLayout, mTrafficLayout, mBottomView);
+//				Log.i("Tag","点击事件over");
 			}
 		});
-		return inflater.inflate(R.layout.tab02, container, false);
+		return myView;
 	}
+
+//	@Override
+//	public void onClick(View v) {
+//		Log.i("Tag","判别点击事件");
+//		// TODO Auto-generated method stub
+//		int id = v.getId();
+//		switch (id) {
+//			case R.id.traffic_bar_layout:
+//				final View mBottomView =  myView.findViewById(R.id.bottom_view);
+//				handleAnimation(v, mTrafficFoldingLayout, mTrafficLayout, mBottomView);
+//				break;
+//			default:
+//				Log.i("Tag","触发未知点击事件");
+//				break;
+//		}
+//
+//	}
+
 
 	private void handleAnimation(final View bar, final FoldingLayout foldingLayout, View parent, final View nextParent) {
 
