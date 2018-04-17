@@ -49,7 +49,7 @@
                 android:background="@drawable/service_arrow_down" />
         </RelativeLayout>
 
-        <foldingmenu.BaseFoldingLayout
+        <foldingmenu.FoldingLayout
             android:id="@+id/traffic_item"
             android:layout_width="match_parent"
             android:layout_height="135dp"
@@ -126,7 +126,7 @@
                         android:textSize="13dp" />
                 </LinearLayout>
             </LinearLayout>
-        </foldingmenu.BaseFoldingLayout>
+        </foldingmenu.FoldingLayout>
 
     </LinearLayout>
 
