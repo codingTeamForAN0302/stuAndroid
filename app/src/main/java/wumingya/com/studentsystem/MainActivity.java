@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -16,12 +17,20 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import common.http.GetRequest_Interface;
+import common.http.Translation;
 import reflash.ApkEntity;
 import reflash.MyAdapter;
 import reflash.ReFlashListView;
 import reflash.ReFlashListView.IReflashListener;
 
 import menuview.slidingmenu;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener,IReflashListener{
     ArrayList<ApkEntity> apk_list;
@@ -99,7 +108,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void onReflash() {
 
-
+        request();
 
         // TODO Auto-generated method stub\
         Handler handler = new Handler();
@@ -117,7 +126,37 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }, 2000);
     }
 
+    public void request() {
 
+        //步骤4:创建Retrofit对象
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://fy.iciba.com/") // 设置 网络请求 Url
+                .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
+                .build();
+
+        // 步骤5:创建 网络请求接口 的实例
+        GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
+
+        //对 发送请求 进行封装
+        Call<Translation> call = request.getCall();
+
+        //步骤6:发送网络请求(异步)
+        call.enqueue(new Callback<Translation>() {
+            //请求成功时回调
+            @Override
+            public void onResponse(Call<Translation> call, Response<Translation> response) {
+                // 步骤7：处理返回的数据结果
+                response.body().show();
+                Log.i("tag","接受成功");
+            }
+
+            //请求失败时回调
+            @Override
+            public void onFailure(Call<Translation> call, Throwable throwable) {
+                System.out.println("连接失败");
+            }
+        });
+    }
     /*
     * 初始化控件
     * */
