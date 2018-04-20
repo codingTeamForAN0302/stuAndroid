@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/item1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <ImageView
@@ -35,6 +36,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/item2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <ImageView
@@ -59,6 +61,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/item3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <ImageView
@@ -76,6 +79,30 @@
                 android:layout_toRightOf="@+id/id_img3"
                 android:textSize="20sp"
                 android:text="Item3"
+                android:layout_centerVertical="true"
+
+                android:textColor="#ec2608"
+                android:layout_marginLeft="20dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/item4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/id_img4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_launcher"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/id_img4"
+                android:textSize="20sp"
+                android:text="Item4"
                 android:layout_centerVertical="true"
 
                 android:textColor="#ec2608"

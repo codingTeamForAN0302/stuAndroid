@@ -1,6 +1,7 @@
 package wumingya.com.studentsystem;
 
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 import reflash.ApkEntity;
@@ -35,6 +38,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private LinearLayout mTabMajor;
     private LinearLayout mTabStudent;
     private LinearLayout mTabCollage;
+
+    private RelativeLayout mItem;
 
     private ImageButton mHomeImg;
     private ImageButton mMajorImg;
@@ -93,6 +98,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
     @Override
     public void onReflash() {
+
+
+
         // TODO Auto-generated method stub\
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -126,6 +134,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mStudentImg = (ImageButton)findViewById(R.id.id_tab_student_btn);
         mCollageImg = (ImageButton)findViewById(R.id.id_tab_collage_btn);
 
+        mItem = (RelativeLayout)findViewById(R.id.item4);
 
         mLeftMenu = (slidingmenu) findViewById(R.id.id_menu);
 
@@ -137,6 +146,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mTabMajor.setOnClickListener(this);
         mTabCollage.setOnClickListener(this);
         mTabHome.setOnClickListener(this);
+        mItem.setOnClickListener(this);
 
     }
 
@@ -205,6 +215,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.id_tab_collage:
                 setTab(3);
                 break;
+            case R.id.item4:
+                Intent intent = new Intent(MainActivity.this,Setting.class);
+                startActivity(intent);
             default:
                 break;
         }
