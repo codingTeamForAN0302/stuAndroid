@@ -4,12 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <reflash.ReFlashListView
-        android:id="@+id/listview"
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/spread_pie_chart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:cacheColorHint="#fff"
-        android:dividerHeight="5dp" />
+        android:layout_height="320dip"
+        android:layout_centerHorizontal="true" />
 
 </LinearLayout>

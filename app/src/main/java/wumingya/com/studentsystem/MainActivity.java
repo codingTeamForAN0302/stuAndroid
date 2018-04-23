@@ -2,14 +2,12 @@ package wumingya.com.studentsystem;
 
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -18,21 +16,12 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.http.GetRequest_Interface;
-import common.http.Translation;
 import reflash.ApkEntity;
-import reflash.MyAdapter;
-import reflash.ReFlashListView;
 import reflash.ReFlashListView.IReflashListener;
 
 import menuview.slidingmenu;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener,IReflashListener{
+public class MainActivity extends FragmentActivity implements View.OnClickListener{
     ArrayList<ApkEntity> apk_list;
     private slidingmenu mLeftMenu ;
 
@@ -71,92 +60,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     {
         mLeftMenu.toggle();
     }
-    /*
-    * 下拉刷新功能
-    * */
-    MyAdapter adapter;
-    ReFlashListView listview;
-    private void showList(ArrayList<ApkEntity> apk_list) {
-        if (adapter == null) {
-            listview = (ReFlashListView) findViewById(R.id.listview);
-            listview.setInterface(this);
-            adapter = new MyAdapter(this, apk_list);
-            listview.setAdapter(adapter);
-        } else {
-            adapter.onDateChange(apk_list);
-        }
-    }
-    private void setData() {
-        apk_list = new ArrayList<ApkEntity>();
-        for (int i = 0; i < 5; i++) {
-            ApkEntity entity = new ApkEntity();
-            entity.setName("默认数据");
-            entity.setDes("这是一个神奇的应用");
-            entity.setInfo("50w用户");
-            apk_list.add(entity);
-        }
-    }
-    private void setReflashData() {
-        for (int i = 0; i < 2; i++) {
-            ApkEntity entity = new ApkEntity();
-            entity.setName("刷新数据");
-            entity.setDes("这是一个神奇的应用");
-            entity.setInfo("50w用户");
-            apk_list.add(0,entity);
-        }
-    }
-    @Override
-    public void onReflash() {
 
-        request();
-
-        // TODO Auto-generated method stub\
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                //获取最新数据
-                setReflashData();
-                //通知界面显示
-                showList(apk_list);
-                //通知listview 刷新数据完毕；
-                listview.reflashComplete();
-            }
-        }, 2000);
-    }
-
-    public void request() {
-
-        //步骤4:创建Retrofit对象
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://fy.iciba.com/") // 设置 网络请求 Url
-                .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
-                .build();
-
-        // 步骤5:创建 网络请求接口 的实例
-        GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
-
-        //对 发送请求 进行封装
-        Call<Translation> call = request.getCall();
-
-        //步骤6:发送网络请求(异步)
-        call.enqueue(new Callback<Translation>() {
-            //请求成功时回调
-            @Override
-            public void onResponse(Call<Translation> call, Response<Translation> response) {
-                // 步骤7：处理返回的数据结果
-                response.body().show();
-                Log.i("tag","接受成功");
-            }
-
-            //请求失败时回调
-            @Override
-            public void onFailure(Call<Translation> call, Throwable throwable) {
-                System.out.println("连接失败");
-            }
-        });
-    }
     /*
     * 初始化控件
     * */
@@ -194,7 +98,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mFragments = new ArrayList<Fragment>();
         Fragment mTab01 = new HomeFragment();
         Fragment mTab02 = new MajorFragment();
-        Fragment mTab03 = new StudentFragment();
+        Fragment mTab03 = new ClassFragment();
         Fragment mTab04 = new CollageFragment();
         mFragments.add(mTab01);
         mFragments.add(mTab02);
@@ -242,14 +146,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.id_tab_home:
                 setTab(0);
-                setData();
-                showList(apk_list);
                 break;
             case R.id.id_tab_major:
                 setTab(1);
                 break;
             case R.id.id_tab_student:
                 setTab(2);
+//                setData();
+//                showList(apk_list);
                 break;
             case R.id.id_tab_collage:
                 setTab(3);
@@ -260,6 +164,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             default:
                 break;
         }
+
     }
 
     private void setTab(int i)
